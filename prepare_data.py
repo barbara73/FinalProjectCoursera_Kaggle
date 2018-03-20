@@ -78,10 +78,10 @@ def k_fold_mean(data) :
     for train_ind, val_ind in kf.split(data) :
         X_tr, X_val = data.iloc[train_ind], data.iloc[val_ind]
         data['target_kfold'].iloc[val_ind] = X_val.item_id.map(X_tr.groupby('item_id').target.mean())
- 
+
     data['target_kfold'].fillna(0.3343, inplace=True)
     df = data[['shop_id', 'item_id', 'target_kfold']]
-    
+
     return data, df
 
 
@@ -92,7 +92,7 @@ def loo_mean(data) :
 
     data['target_loo'].fillna(0.3343, inplace=True)
     df = data[['shop_id', 'item_id', 'target_loo']]
-    
+ 
     return data, df
 
 
@@ -102,10 +102,10 @@ def smoothing_mean(data) :
     global_mean = 0.3343
     alpha = 100
     data = data.assign(target_smoothing = (mean_target*nrows+global_mean*alpha) / (nrows+alpha)).astype('float32')
-
+ 
     data['target_smoothing'].fillna(0.3343, inplace=True)
     df = data[['shop_id', 'item_id', 'target_smoothing']]
-
+    
     return data, df
 
 
